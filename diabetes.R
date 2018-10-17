@@ -4,7 +4,10 @@ library(mlbench)
 library(dplyr)
 library(neuralnet)
 
-data <- read.csv(file = '~/Downloads/dataset_diabetes/diabetic_data.csv', header = T, na.strings = c('?','None'))
+temp <- tempfile()
+download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00296/dataset_diabetes.zip", temp)
+data <- read.csv(unz(temp, "dataset_diabetes/diabetic_data.csv"), header = T, na.strings = c('?','None'))
+unlink(temp)
 
 data %<>% mutate_if(is.factor, as.numeric)
 data <- data[, c(3:5, 10, 22:24, 48:50)]
